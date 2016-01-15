@@ -1,30 +1,25 @@
 import json
 import os
 import sys
-import base64
 import socket
 
+adminUsername = sys.argv[1]
+adminPassword = sys.argv[2]
+
+# We should pass this in as an argument, but hard coding it here for now...
+datacenters = [{'nodes': 6, 'location': 'westus', 'nodeType': 'solr'}, {'nodes': 3, 'location': 'westus', 'nodeType': 'hadoop'}, {'nodes': 6, 'location': 'eastus', 'nodeType': 'solr'}, {'nodes': 3, 'location': 'eastus', 'nodeType': 'hadoop'}]
+
 def run():
-    deploymentName = sys.argv[1]
-    regions = json.loads(base64.b64decode(sys.argv[2]))
-    nodesPerRegion = int(sys.argv[3])
-    nodeType = sys.argv[4]
-
-    # this is terrible, but the newlines are causing the key to be truncated
-    file = open('/tmp/sshkey', 'r')
-    sshkey=file.read()
-    file.close()
-
-    document = generateDocument(deploymentName, sshkey, regions, nodesPerRegion, nodeType)
+    document = generateDocument()
 
     with open('provision.json', 'w') as outputFile:
         json.dump(document, outputFile, sort_keys=True, indent=4, ensure_ascii=False)
 
 
-def getNodeInformation(deploymentName, region, numberOfNodes, nodeType):
+def getNodeInformation():
     nodeInformation = []
 
-    for nodeIndex in range(1, numberOfNodes+1):
+    for nodeIndex in range(1, numberOfNodes + 1):
         nodeName = deploymentName + '-service-' + region + '-' + str(nodeIndex) + '-vm'
         nodeIP = socket.gethostbyname_ex(nodeName)[2][0]
         document = {
@@ -37,7 +32,7 @@ def getNodeInformation(deploymentName, region, numberOfNodes, nodeType):
     return nodeInformation
 
 
-def getLocalDataCenters(deploymentName, regions, nodesPerRegion, nodeType):
+def getLocalDataCenters():
     localDataCenters = []
     for region in regions:
         localDataCenter = {
@@ -60,10 +55,10 @@ def getFingerprint(ip):
     return fingerprint
 
 
-def getAcceptedFingerprints(deploymentName, regions, nodesPerRegion):
+def getAcceptedFingerprints():
     acceptedFingerprints = {}
     for region in regions:
-        for nodeIndex in range(1, nodesPerRegion+1):
+        for nodeIndex in range(1, nodesPerRegion + 1):
             nodeName = deploymentName + '-service-' + region + '-' + str(nodeIndex) + '-vm'
             nodeIP = socket.gethostbyname_ex(nodeName)[2][0]
             acceptedFingerprints[nodeIP] = getFingerprint(nodeIP)
@@ -71,14 +66,14 @@ def getAcceptedFingerprints(deploymentName, regions, nodesPerRegion):
     return acceptedFingerprints
 
 
-def generateDocument(deploymentName, sshkey, regions, nodesPerRegion, nodeType):
-    localDataCenters = getLocalDataCenters(deploymentName, regions, nodesPerRegion, nodeType)
-    acceptedFingerprints = getAcceptedFingerprints(deploymentName, regions, nodesPerRegion)
+def generateDocument():
+    localDataCenters = getLocalDataCenters()
+    acceptedFingerprints = getAcceptedFingerprints()
 
     return {
         "cassandra_config": {
+            "num_tokens": 64,
             "phi_convict_threshold": 12,
-            "initial_token": 4611686018427387901,
             "auto_bootstrap": False,
             "permissions_validity_in_ms": 2000,
             "memtable_allocation_type": "heap_buffers",
@@ -194,12 +189,11 @@ def generateDocument(deploymentName, sshkey, regions, nodesPerRegion, nodeType):
         "is_retry": False,
         "install_params": {
             "package": "dse",
-            "private_key": sshkey,
-            "password": "",
-            "username": "root",
-            "version": "4.8.0",
-            "repo-password": "8GdeeVT2s7zi",
-            "repo-user": "datastax%40google.com"
+            "version": "4.8.1",
+            "username": adminUsername,
+            "password": adminPassword,
+            "repo-user": "datastax%40microsoft.com",
+            "repo-password": "3A7vadPHbNT"
         },
         "local_datacenters": localDataCenters,
         "accepted_fingerprints": acceptedFingerprints
@@ -207,4 +201,3 @@ def generateDocument(deploymentName, sshkey, regions, nodesPerRegion, nodeType):
 
 
 run()
-
