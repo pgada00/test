@@ -28,9 +28,7 @@
     }
   },
   "variables": {
-    "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]",
-    "publicIpName": "opsCenterPublicIP",
-    "securityGroupName": "opscenterNSG"
+    "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]"
   },
   "resources": [
     {
