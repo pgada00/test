@@ -42,6 +42,9 @@ apt-get -y install opscenter=5.2.3
 echo "Starting OpsCenter"
 sudo service opscenterd start
 
+echo "We are just installing for now, no configuration."
+exit
+
 #############################################################################
 #### Now that we have OpsCenter installed, let's configure our cluster. #####
 #############################################################################
