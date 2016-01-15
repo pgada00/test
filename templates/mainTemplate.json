@@ -189,7 +189,6 @@
       "apiVersion": "2015-01-01",
       "dependsOn": [
         "Microsoft.Resources/deployments/nodes1",
-        "Microsoft.Resources/deployments/nodes2",
         "Microsoft.Resources/deployments/opscenter"
       ],
       "properties": {
