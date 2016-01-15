@@ -42,19 +42,19 @@
     "subnetName1": "subnet1",
     "subnetName2": "subnet2",
     "clusterRange1": {
-      "base": "10.1.0.",
+      "base": "10.0.0.",
       "start": 6
     },
     "clusterRange2": {
-      "base": "10.2.0.",
+      "base": "10.1.0.",
       "start": 6
     },
     "clusterRange3": {
-      "base": "10.3.0.",
+      "base": "10.2.0.",
       "start": 6
     },
     "clusterRange4": {
-      "base": "10.4.0.",
+      "base": "10.3.0.",
       "start": 6
     },
     "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', parameters('clusterNodeCount'))]",
