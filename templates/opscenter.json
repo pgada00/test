@@ -128,7 +128,7 @@
       "name": "opscentervm",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', 'opsCenterNIC']"
+        "[concat('Microsoft.Network/networkInterfaces/', 'opsCenterNIC')]"
       ],
       "properties": {
         "hardwareProfile": {
