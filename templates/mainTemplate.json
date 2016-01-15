@@ -34,23 +34,33 @@
     "opsCenterTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenter.json')]",
     "opsCenterInstallTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenterInstall.json')]",
     "location1": "West US",
-    "location2": "East US",
-    "storageAccountName1": "[concat('dc1',uniqueString(resourceGroup().id, deployment().name))]",
-    "storageAccountName2": "[concat('dc2',uniqueString(resourceGroup().id, deployment().name))]",
+    "location2": "West US",
+    "location3": "East US",
+    "location4": "East US",
     "vnetName1": "vnet1",
     "vnetName2": "vnet2",
     "subnetName1": "subnet1",
     "subnetName2": "subnet2",
     "clusterRange1": {
-      "base": "10.0.0.",
+      "base": "10.1.0.",
       "start": 6
     },
     "clusterRange2": {
-      "base": "10.1.0.",
+      "base": "10.2.0.",
+      "start": 6
+    },
+    "clusterRange3": {
+      "base": "10.3.0.",
+      "start": 6
+    },
+    "clusterRange4": {
+      "base": "10.4.0.",
       "start": 6
     },
     "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', parameters('clusterNodeCount'))]",
     "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', parameters('clusterNodeCount'))]",
+    "nodeList3": "[concat(variables('clusterRange3').base, variables('clusterRange3').start, '-', parameters('clusterNodeCount'))]",
+    "nodeList4": "[concat(variables('clusterRange4').base, variables('clusterRange4').start, '-', parameters('clusterNodeCount'))]",
     "opsCenterIP": "10.0.0.5",
     "osSettings": {
       "imageReference": {
@@ -67,24 +77,6 @@
     }
   },
   "resources": [
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName1')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[variables('location1')]",
-      "properties": {
-        "accountType": "Standard_LRS"
-      }
-    },
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName2')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[variables('location2')]",
-      "properties": {
-        "accountType": "Standard_LRS"
-      }
-    },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/virtualNetworks",
@@ -107,32 +99,10 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('vnetName2')]",
-      "location": "[variables('location2')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "10.1.0.0/16"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('subnetName2')]",
-            "properties": {
-              "addressPrefix": "10.1.0.0/24"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "nodes1",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName1'))]",
         "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName1'))]"
       ],
       "properties": {
@@ -144,9 +114,6 @@
         "parameters": {
           "location": {
             "value": "[variables('location1')]"
-          },
-          "storageAccountName": {
-            "value": "[variables('storageAccountName1')]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
@@ -178,57 +145,6 @@
         }
       }
     },
-        {
-      "name": "nodes2",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName2'))]",
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName2'))]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('nodesTemplateUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[variables('location2')]"
-          },
-          "storageAccountName": {
-            "value": "[variables('storageAccountName2')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "namespace": {
-            "value": "dc2"
-          },
-          "vmSize": {
-            "value": "[parameters('clusterVmSize')]"
-          },
-          "osSettings": {
-            "value": "[variables('osSettings')]"
-          },
-          "nodeCount": {
-            "value": "[parameters('clusterNodeCount')]"
-          },
-          "staticIps": {
-            "value": "[variables('clusterRange2')]"
-          },
-          "vnetName": {
-            "value": "[variables('vnetName2')]"
-          },
-          "subnetName": {
-            "value": "[variables('subnetName2')]"
-          }
-        }
-      }
-    },
     {
       "name": "opscenter",
       "type": "Microsoft.Resources/deployments",
@@ -246,9 +162,6 @@
         "parameters": {
           "location": {
             "value": "[variables('location1')]"
-          },
-          "storageAccountName": {
-            "value": "[variables('storageAccountName1')]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"

@@ -5,9 +5,6 @@
     "location": {
       "type": "string"
     },
-    "storageAccountName": {
-      "type": "string"
-    },
     "adminUsername": {
       "type": "string"
     },
@@ -28,7 +25,8 @@
     }
   },
   "variables": {
-    "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]"
+    "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]",
+    "storageAccountName": "[concat('opsCenter', uniqueString(resourceGroup().id, deployment().name))]"
   },
   "resources": [
     {
@@ -123,12 +121,22 @@
       }
     },
     {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "",
+      "apiVersion": "2015-05-01-preview",
+      "location": "variables('storageAccountName')",
+      "properties": {
+        "accountType": "Standard_LRS"
+      }
+    },
+    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "opscentervm",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', 'opsCenterNIC')]"
+        "[concat('Microsoft.Network/networkInterfaces/', 'opsCenterNIC')]",
+        "[concat('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
       "properties": {
         "hardwareProfile": {
@@ -144,7 +152,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/', 'opsCenter', 'vm-osdisk.vhd')]"
+              "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'opsCenter', 'vm-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"

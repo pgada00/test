@@ -5,9 +5,6 @@
     "location": {
       "type": "string"
     },
-    "storageAccountName": {
-      "type": "string"
-    },
     "adminUsername": {
       "type": "string"
     },
@@ -38,7 +35,9 @@
   },
   "variables": {
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]",
-    "vmName": "[concat(parameters('namespace'), 'vm')]"
+    "vmName": "[concat(parameters('namespace'), 'vm')]",
+    "storageAccountName": "[concat(parameters('namespace'), uniqueString(resourceGroup().id, deployment().name))]"
+
   },
   "resources": [
     {
@@ -83,7 +82,7 @@
         "count": "[parameters('nodeCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), 'publicIP', copyindex())]"
+        "['Microsoft.Network/publicIPAddresses/', parameters('namespace'), 'publicIP', copyindex())]"
       ],
       "properties": {
         "ipConfigurations": [
