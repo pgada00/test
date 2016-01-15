@@ -1,10 +1,11 @@
 #!/bin/bash
 
-echo "Installing Azul Zulu JDK"
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9
-apt-add-repository -y "deb http://repos.azulsystems.com/ubuntu stable main"
+echo "Installing Java"
+add-apt-repository -y ppa:webupd8team/java
 apt-get -y update
-apt-get -y install zulu-8
+echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+apt-get -y install oracle-java8-installer
 
 echo "Partitioning and formatting all attached data disks"
 bash vm-disk-utils-0.1.sh
