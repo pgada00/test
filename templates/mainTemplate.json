@@ -150,7 +150,6 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName1'))]",
         "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName1'))]"
       ],
       "properties": {
