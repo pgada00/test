@@ -57,9 +57,9 @@ def getFingerprint(ip):
 
 def getAcceptedFingerprints():
     acceptedFingerprints = {}
-    for region in regions:
-        for nodeIndex in range(1, nodesPerRegion + 1):
-            nodeName = deploymentName + '-service-' + region + '-' + str(nodeIndex) + '-vm'
+    for datacenter in datacenters:
+        for nodeIndex in range(0, datacenter['numberOfNodes']):
+            nodeName = datacenter['namespace'] + 'vm' + str(nodeIndex) + '.' + datacenter['location'] + '.cloudapp.azure.com'
             nodeIP = socket.gethostbyname_ex(nodeName)[2][0]
             acceptedFingerprints[nodeIP] = getFingerprint(nodeIP)
 
@@ -68,8 +68,7 @@ def getAcceptedFingerprints():
 
 def generateDocument():
     localDataCenters = getLocalDataCenters()
-    #acceptedFingerprints = getAcceptedFingerprints()
-    acceptedFingerprints={}
+    acceptedFingerprints = getAcceptedFingerprints()
 
     return {
         "cassandra_config": {
