@@ -180,9 +180,6 @@
           "adminPassword": {
             "value": "[parameters('adminPassword')]"
           },
-          "namespace": {
-            "value": "opc"
-          },
           "osSettings": {
             "value": "[variables('osSettings')]"
           },
