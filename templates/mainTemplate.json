@@ -2,12 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "clusterNodeCount": {
-      "type": "int",
-      "metadata": {
-        "description": "The number of virtual machines to provision for the cluster"
-      }
-    },
     "clusterVmSize": {
       "type": "string",
       "metadata": {
@@ -42,26 +36,30 @@
     "subnetName1": "subnet1",
     "subnetName2": "subnet2",
     "clusterRange1": {
-      "base": "10.0.0.",
-      "start": 6
-    },
-    "clusterRange2": {
       "base": "10.1.0.",
       "start": 6
     },
-    "clusterRange3": {
+    "clusterRange2": {
       "base": "10.2.0.",
       "start": 6
     },
-    "clusterRange4": {
+    "clusterRange3": {
       "base": "10.3.0.",
       "start": 6
     },
-    "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', parameters('clusterNodeCount'))]",
-    "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', parameters('clusterNodeCount'))]",
-    "nodeList3": "[concat(variables('clusterRange3').base, variables('clusterRange3').start, '-', parameters('clusterNodeCount'))]",
-    "nodeList4": "[concat(variables('clusterRange4').base, variables('clusterRange4').start, '-', parameters('clusterNodeCount'))]",
-    "opsCenterIP": "10.0.0.5",
+    "clusterRange4": {
+      "base": "10.4.0.",
+      "start": 6
+    },
+    "clusterNodeCount1": "6",
+    "clusterNodeCount2": "3",
+    "clusterNodeCount3": "6",
+    "clusterNodeCount4": "3",
+    "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', variables('clusterNodeCount1'))]",
+    "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', variables('clusterNodeCount2'))]",
+    "nodeList3": "[concat(variables('clusterRange3').base, variables('clusterRange3').start, '-', variables('clusterNodeCount3'))]",
+    "nodeList4": "[concat(variables('clusterRange4').base, variables('clusterRange4').start, '-', variables('clusterNodeCount4'))]",
+    "opsCenterIP": "10.1.0.5",
     "osSettings": {
       "imageReference": {
         "publisher": "Canonical",
@@ -131,7 +129,7 @@
             "value": "[variables('osSettings')]"
           },
           "nodeCount": {
-            "value": "[parameters('clusterNodeCount')]"
+            "value": "[parameters('clusterNodeCount1')]"
           },
           "staticIps": {
             "value": "[variables('clusterRange1')]"
