@@ -282,7 +282,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "dc1"
+            "value": "dc4"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
