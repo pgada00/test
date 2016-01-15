@@ -81,7 +81,7 @@
         "count": "[parameters('nodeCount')]"
       },
       "dependsOn": [
-        "['Microsoft.Network/publicIPAddresses/', parameters('namespace'), 'publicIP', copyindex())]"
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), 'publicIP', copyindex())]"
       ],
       "properties": {
         "ipConfigurations": [
