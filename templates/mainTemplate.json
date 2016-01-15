@@ -37,19 +37,19 @@
     "subnetName2": "subnet2",
     "clusterRange1": {
       "base": "10.1.0.",
-      "start": 6
+      "start": 5
     },
     "clusterRange2": {
       "base": "10.2.0.",
-      "start": 6
+      "start": 5
     },
     "clusterRange3": {
       "base": "10.3.0.",
-      "start": 6
+      "start": 5
     },
     "clusterRange4": {
       "base": "10.4.0.",
-      "start": 6
+      "start": 5
     },
     "clusterNodeCount1": "6",
     "clusterNodeCount2": "3",
@@ -59,7 +59,7 @@
     "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', variables('clusterNodeCount2'))]",
     "nodeList3": "[concat(variables('clusterRange3').base, variables('clusterRange3').start, '-', variables('clusterNodeCount3'))]",
     "nodeList4": "[concat(variables('clusterRange4').base, variables('clusterRange4').start, '-', variables('clusterNodeCount4'))]",
-    "opsCenterIP": "10.1.0.5",
+    "opsCenterIP": "10.0.0.5",
     "osSettings": {
       "imageReference": {
         "publisher": "Canonical",
@@ -83,14 +83,14 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "10.0.0.0/16"
+            "10.0.0.0/8"
           ]
         },
         "subnets": [
           {
             "name": "[variables('subnetName1')]",
             "properties": {
-              "addressPrefix": "10.0.0.0/16"
+              "addressPrefix": "10.0.0.0/8"
             }
           }
         ]
@@ -104,14 +104,14 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "10.0.0.0/16"
+            "10.0.0.0/8"
           ]
         },
         "subnets": [
           {
             "name": "[variables('subnetName2')]",
             "properties": {
-              "addressPrefix": "10.0.0.0/16"
+              "addressPrefix": "10.0.0.0/8"
             }
           }
         ]
