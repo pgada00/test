@@ -150,7 +150,7 @@
             "value": "[variables('osSettings')]"
           },
           "nodeCount": {
-            "value": "[parameters('clusterNodeCount1')]"
+            "value": "[variables('clusterNodeCount1')]"
           },
           "staticIps": {
             "value": "[variables('clusterRange1')]"
@@ -197,7 +197,7 @@
             "value": "[variables('osSettings')]"
           },
           "nodeCount": {
-            "value": "[parameters('clusterNodeCount2')]"
+            "value": "[variables('clusterNodeCount2')]"
           },
           "staticIps": {
             "value": "[variables('clusterRange2')]"
@@ -244,7 +244,7 @@
             "value": "[variables('osSettings')]"
           },
           "nodeCount": {
-            "value": "[parameters('clusterNodeCount3')]"
+            "value": "[variables('clusterNodeCount3')]"
           },
           "staticIps": {
             "value": "[variables('clusterRange3')]"
@@ -291,7 +291,7 @@
             "value": "[variables('osSettings')]"
           },
           "nodeCount": {
-            "value": "[parameters('clusterNodeCount4')]"
+            "value": "[variables('clusterNodeCount4')]"
           },
           "staticIps": {
             "value": "[variables('clusterRange4')]"
