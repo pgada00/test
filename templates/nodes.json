@@ -37,7 +37,6 @@
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]",
     "vmName": "[concat(parameters('namespace'), 'vm')]",
     "storageAccountName": "[concat(parameters('namespace'), uniqueString(resourceGroup().id, deployment().name))]"
-
   },
   "resources": [
     {
@@ -52,7 +51,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[parameters('storageAccountName')]",
+      "name": "[variables('storageAccountName')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "properties": {
