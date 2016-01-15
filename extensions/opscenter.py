@@ -7,7 +7,7 @@ adminUsername = sys.argv[1]
 adminPassword = sys.argv[2]
 
 # We should pass this in as an argument, but hard coding it here for now...
-datacenters = [{'nodes': 6, 'location': 'westus', 'nodeType': 'solr'}, {'nodes': 3, 'location': 'westus', 'nodeType': 'hadoop'}, {'nodes': 6, 'location': 'eastus', 'nodeType': 'solr'}, {'nodes': 3, 'location': 'eastus', 'nodeType': 'hadoop'}]
+datacenters = [{'namespace':'dc1', 'numberOfNodes': 6, 'location': 'westus', 'nodeType': 'solr'}, {'namespace':'dc2', 'numberOfNodes': 3, 'location': 'westus', 'nodeType': 'hadoop'}, {'namespace':'dc3', 'numberOfNodes': 6, 'location': 'eastus', 'nodeType': 'solr'}, {'namespace':'dc4', 'numberOfNodes': 3, 'location': 'eastus', 'nodeType': 'hadoop'}]
 
 def run():
     document = generateDocument()
@@ -16,16 +16,16 @@ def run():
         json.dump(document, outputFile, sort_keys=True, indent=4, ensure_ascii=False)
 
 
-def getNodeInformation():
+def getNodeInformation(datacenter):
     nodeInformation = []
 
-    for nodeIndex in range(1, numberOfNodes + 1):
-        nodeName = deploymentName + '-service-' + region + '-' + str(nodeIndex) + '-vm'
+    for nodeIndex in range(1, datacenter['numberOfNodes'] + 1):
+        nodeName = datacenter['namespace'] + 'vm' + str(nodeIndex) + '.' + datacenter['location'] + '.cloudapp.azure.com'
         nodeIP = socket.gethostbyname_ex(nodeName)[2][0]
         document = {
             "public_ip": nodeIP,
             "private_ip": nodeIP,
-            "node_type": nodeType,
+            "node_type": datacenter['nodeType'],
             "rack": "rack1"
         }
         nodeInformation.append(document)
@@ -34,11 +34,11 @@ def getNodeInformation():
 
 def getLocalDataCenters():
     localDataCenters = []
-    for region in regions:
+    for datacenter in datacenters:
         localDataCenter = {
-            "location": region,
-            "node_information": getNodeInformation(deploymentName, region, nodesPerRegion, nodeType),
-            "dc": region
+            "location": datacenter['location'],
+            "node_information": getNodeInformation(datacenter),
+            "dc": datacenter['location'] + '-' + datacenter['nodeType']
         }
         localDataCenters.append(localDataCenter)
     return localDataCenters
@@ -68,7 +68,8 @@ def getAcceptedFingerprints():
 
 def generateDocument():
     localDataCenters = getLocalDataCenters()
-    acceptedFingerprints = getAcceptedFingerprints()
+    #acceptedFingerprints = getAcceptedFingerprints()
+    acceptedFingerprints={}
 
     return {
         "cassandra_config": {
