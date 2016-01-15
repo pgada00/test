@@ -288,7 +288,7 @@
         },
         "parameters": {
           "location": {
-            "value": "[variables('location')]"
+            "value": "[variables('location1')]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
