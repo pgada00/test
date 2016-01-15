@@ -19,7 +19,7 @@ def run():
 def getNodeInformation(datacenter):
     nodeInformation = []
 
-    for nodeIndex in range(1, datacenter['numberOfNodes'] + 1):
+    for nodeIndex in range(0, datacenter['numberOfNodes']):
         nodeName = datacenter['namespace'] + 'vm' + str(nodeIndex) + '.' + datacenter['location'] + '.cloudapp.azure.com'
         nodeIP = socket.gethostbyname_ex(nodeName)[2][0]
         document = {
