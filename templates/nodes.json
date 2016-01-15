@@ -74,9 +74,6 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namespace'), 'publicIP', copyindex()))]"
-              },
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[concat(parameters('staticIps').base, copyindex(parameters('staticIps').start))]",
               "subnet": {
