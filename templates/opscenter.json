@@ -23,9 +23,6 @@
     "staticIp": {
       "type": "string"
     },
-    "dnsName": {
-      "type": "string"
-    },
     "vnetName": {
       "type": "string"
     },
@@ -35,8 +32,7 @@
   },
   "variables": {
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]",
-    "publicIpName": "[concat(parameters('namespace'), 'PublicIp')]",
-    "publicIpRef": "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIpName'))]",
+    "publicIpName": "opsCenterPublicIp",
     "securityGroupName": "[concat(parameters('namespace'), 'nsg')]"
   },
   "resources": [
@@ -98,10 +94,7 @@
       "name": "[variables('publicIpName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsName')]"
-        }
+        "publicIPAllocationMethod": "Dynamic"
       }
     },
     {

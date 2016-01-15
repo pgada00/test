@@ -189,9 +189,6 @@
           "staticIp": {
             "value": "[variables('opsCenterIP')]"
           },
-          "dnsName": {
-            "value": "[variables('clusterName')]"
-          },
           "vnetName": {
             "value": "[variables('vnetName')]"
           },
