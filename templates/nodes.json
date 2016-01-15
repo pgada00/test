@@ -82,6 +82,9 @@
         "name": "[concat(parameters('namespace'), 'nicLoop')]",
         "count": "[parameters('nodeCount')]"
       },
+      "dependsOn": [
+        "['Microsoft.Network/publicIPAddresses/', concat(parameters('namespace'), 'publicIP', copyindex())]"
+      ],
       "properties": {
         "ipConfigurations": [
           {
