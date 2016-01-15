@@ -98,8 +98,8 @@
       "name": "opsCenterNIC",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', 'opsCenterPublicIP']",
-        "[concat('Microsoft.Network/networkSecurityGroups/', 'opsCenterNSG']"
+        "[concat('Microsoft.Network/publicIPAddresses/', 'opsCenterPublicIP')]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', 'opsCenterNSG')]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -107,7 +107,7 @@
             "name": "ipconfig1",
             "properties": {
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'opsCenterPublicIP']"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'opsCenterPublicIP')]"
               },
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[parameters('staticIp')]",
@@ -115,7 +115,7 @@
                 "id": "[variables('subnetRef')]"
               },
               "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'opsCenterNSG']"
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'opsCenterNSG')]"
               }
             }
           }
@@ -153,7 +153,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', 'opsCenterNIC']"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', 'opsCenterNIC')]"
             }
           ]
         }
