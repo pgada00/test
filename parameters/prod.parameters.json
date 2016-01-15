@@ -1,0 +1,15 @@
+{
+  "clusterNodeCount": {
+    "value": 5
+  },
+  "clusterVmSize": {
+    "value": "Standard_D1"
+  },
+  "adminUsername": {
+    "value": "datastax"
+  },
+  "adminPassword": {
+    "value": "foo123!"
+  }
+}
+
