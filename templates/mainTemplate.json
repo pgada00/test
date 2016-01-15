@@ -310,10 +310,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName1'))]",
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName2'))]",
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName3'))]",
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName4'))]"
+        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName1'))]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -351,6 +348,10 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
+        "Microsoft.Resources/deployments/nodes1",
+        "Microsoft.Resources/deployments/nodes2",
+        "Microsoft.Resources/deployments/nodes3",
+        "Microsoft.Resources/deployments/nodes4",
         "Microsoft.Resources/deployments/opscenter"
       ],
       "properties": {
