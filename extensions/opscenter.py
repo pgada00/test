@@ -5,6 +5,7 @@ import socket
 
 adminUsername = sys.argv[1]
 adminPassword = sys.argv[2]
+uniqueString = sys.argv[3]
 
 # We should pass this in as an argument, but hard coding it here for now...
 datacenters = [{'namespace':'dc1', 'numberOfNodes': 6, 'location': 'westus', 'nodeType': 'solr'}, {'namespace':'dc2', 'numberOfNodes': 3, 'location': 'westus', 'nodeType': 'hadoop'}, {'namespace':'dc3', 'numberOfNodes': 6, 'location': 'eastus', 'nodeType': 'solr'}, {'namespace':'dc4', 'numberOfNodes': 3, 'location': 'eastus', 'nodeType': 'hadoop'}]
@@ -59,7 +60,7 @@ def getAcceptedFingerprints():
     acceptedFingerprints = {}
     for datacenter in datacenters:
         for nodeIndex in range(0, datacenter['numberOfNodes']):
-            nodeName = datacenter['namespace'] + 'vm' + str(nodeIndex) + '.' + datacenter['location'] + '.cloudapp.azure.com'
+            nodeName = datacenter['namespace'] + 'vm' + str(nodeIndex) + '.' + datacenter['location'] + uniqueString + '.cloudapp.azure.com'
             nodeIP = socket.gethostbyname_ex(nodeName)[2][0]
             acceptedFingerprints[nodeIP] = getFingerprint(nodeIP)
 
