@@ -15,7 +15,7 @@ apt-get -y install opscenter=5.2.3
 
 # By default OpsCenter will use the private IP for a variety of interfaces.  The ndoes won't be able to resolve this.
 DNSNAME=$3'.westus.cloudapp.azure.com'
-IP=$DNSNAME
+IP=`getent hosts $DNSNAME | awk '{ print $1 }'`
 
 echo '[agents]' >> /etc/opscenter/opscenterd.conf
 echo 'reported_interface='$IP >> /etc/opscenter/opscenterd.conf
