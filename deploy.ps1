@@ -17,3 +17,4 @@ $invokeArgs += ("-TemplateFile", "templates\mainTemplate.json")
 $invokeArgs += ("-TemplateParametersFile","parameters\prod.parameters.json")
 $invokeArgs += $subscriptionArgs
 
+# This seems to be missing the command to actually invoke these arguments
