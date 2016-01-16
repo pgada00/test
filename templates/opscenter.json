@@ -87,7 +87,10 @@
       "name": "opsCenterPublicIP",
       "location": "[parameters('location')]",
       "properties": {
-        "publicIPAllocationMethod": "Dynamic"
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "uniqueString(resourceGroup().id, deployment().name)]"
+        }
       }
     },
     {
