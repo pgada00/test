@@ -31,7 +31,7 @@
         "typeHandlerVersion": "1.3",
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash opscenter.sh ', parameters('adminUsername'), ' ', parameters('adminPassword'))]"
+          "commandToExecute": "[concat('bash opscenter.sh ', parameters('adminUsername'), ' ', parameters('adminPassword'), ' ', uniqueString(resourceGroup().id, deployment().name))]"
         }
       }
     }

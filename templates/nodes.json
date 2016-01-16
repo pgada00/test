@@ -70,7 +70,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[concat(parameters('namespace'), 'vm', copyIndex())]"
+          "domainNameLabel": "[concat(parameters('namespace'), 'vm', copyIndex(), uniqueString(resourceGroup().id, deployment().name))]"
         }
       }
     },
