@@ -21,7 +21,7 @@ def getNodeInformation(datacenter):
     nodeInformation = []
 
     for nodeIndex in range(0, datacenter['numberOfNodes']):
-        nodeName = datacenter['namespace'] + 'vm' + str(nodeIndex) + '.' + datacenter['location'] + '.cloudapp.azure.com'
+        nodeName = datacenter['namespace'] + 'vm' + str(nodeIndex) + uniqueString + '.' + datacenter['location'] + '.cloudapp.azure.com'
         nodeIP = socket.gethostbyname_ex(nodeName)[2][0]
         document = {
             "public_ip": nodeIP,
@@ -60,7 +60,7 @@ def getAcceptedFingerprints():
     acceptedFingerprints = {}
     for datacenter in datacenters:
         for nodeIndex in range(0, datacenter['numberOfNodes']):
-            nodeName = datacenter['namespace'] + 'vm' + str(nodeIndex) + '.' + datacenter['location'] + uniqueString + '.cloudapp.azure.com'
+            nodeName = datacenter['namespace'] + 'vm' + str(nodeIndex) + uniqueString + '.' + datacenter['location'] + '.cloudapp.azure.com'
             nodeIP = socket.gethostbyname_ex(nodeName)[2][0]
             acceptedFingerprints[nodeIP] = getFingerprint(nodeIP)
 
