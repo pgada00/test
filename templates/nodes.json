@@ -2,6 +2,9 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "uniqueString": {
+      "type": "string"
+    },
     "location": {
       "type": "string"
     },
@@ -36,7 +39,7 @@
   "variables": {
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]",
     "vmName": "[concat(parameters('namespace'), 'vm')]",
-    "storageAccountName": "[concat(parameters('namespace'), uniqueString(resourceGroup().id, deployment().name))]"
+    "storageAccountName": "[concat(parameters('namespace'), parameters('uniqueString'))]"
   },
   "resources": [
     {
@@ -70,7 +73,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[concat(parameters('namespace'), 'vm', copyIndex(), uniqueString(resourceGroup().id, deployment().name))]"
+          "domainNameLabel": "[concat(parameters('namespace'), 'vm', copyIndex(), parameters('uniqueString'))]"
         }
       }
     },
