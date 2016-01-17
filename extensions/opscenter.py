@@ -52,7 +52,13 @@ def getFingerprint(ip):
     with open("/tmp/tmpgenkey", "r") as inputFile:
         data = inputFile.read()
     array = data.split()
-    fingerprint = array[0] + ' ' + array[1] + ' ' + array[3]
+
+    # This works on Google
+    #fingerprint = array[0] + ' ' + array[1] + ' ' + array[3]
+
+    # But this works on Azure.  I wish I knew why.
+    fingerprint = array[1]
+
     return fingerprint
 
 
