@@ -89,7 +89,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "uniqueString(resourceGroup().id, deployment().name)]"
+          "domainNameLabel": ["uniqueString(resourceGroup().id, deployment().name)]"
         }
       }
     },
