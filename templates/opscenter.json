@@ -40,44 +40,16 @@
       "properties": {
         "securityRules": [
           {
-            "name": "SSH",
+            "name": "All",
             "properties": {
-              "description": "Allows SSH traffic",
+              "description": "Allows all traffic",
               "protocol": "Tcp",
-              "sourcePortRange": "22",
-              "destinationPortRange": "22",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
               "sourceAddressPrefix": "*",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 100,
-              "direction": "Inbound"
-            }
-          },
-          {
-            "name": "HTTP",
-            "properties": {
-              "description": "Allows HTTP traffic",
-              "protocol": "Tcp",
-              "sourcePortRange": "8888",
-              "destinationPortRange": "8888",
-              "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 110,
-              "direction": "Inbound"
-            }
-          },
-          {
-            "name": "HTTPS",
-            "properties": {
-              "description": "Allows HTTPS traffic",
-              "protocol": "Tcp",
-              "sourcePortRange": "8443",
-              "destinationPortRange": "8443",
-              "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 120,
               "direction": "Inbound"
             }
           }
