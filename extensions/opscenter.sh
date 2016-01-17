@@ -14,9 +14,13 @@ apt-get update
 apt-get -y install opscenter=5.2.3
 
 # By default OpsCenter will use the private IP for a variety of interfaces.  The ndoes won't be able to resolve this.
+echo "Trying to determine my IP address."
 DNSNAME=$3'.westus.cloudapp.azure.com'
+echo "My DNS name is $DNSNAME."
 IP=`getent hosts $DNSNAME | awk '{ print $1 }'`
+echo "My IP address is $IP."
 
+echo "Making changes to the OpsCenter config based on my IP."
 echo '[agents]' >> /etc/opscenter/opscenterd.conf
 echo 'reported_interface='$IP >> /etc/opscenter/opscenterd.conf
 echo 'incoming_interface='$IP >> /etc/opscenter/opscenterd.conf
@@ -27,6 +31,7 @@ sudo service opscenterd start
 wget https://raw.githubusercontent.com/J4U-Nimbus/EMJU_DataStaxARM/master/extensions/opscenter.py
 
 echo "Generating a provision.json file"
+echo "Going to call: python opscenter.py $1 $2 $3"
 python opscenter.py $1 $2 $3
 
 echo "Provisioning a new cluster using provision.json"
