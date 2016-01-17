@@ -92,7 +92,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('uniqueString')]"
+          "domainNameLabel": "[concat('opsc', parameters('uniqueString'))]"
         }
       }
     },
