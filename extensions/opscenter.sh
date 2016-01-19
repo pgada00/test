@@ -33,5 +33,6 @@ echo "Generating a provision.json file"
 echo "Going to call: python opscenter.py $1 $2 $3"
 python opscenter.py $1 $2 $3
 
-echo "Provisioning a new cluster using provision.json"
-curl --insecure -H "Accept: application/json" -X POST http://127.0.0.1:8888/provision -d @provision.json
+# OpsCenter isn't binding to public IP on the Stomp interface, so going to comment this out for now
+#echo "Provisioning a new cluster using provision.json"
+#curl --insecure -H "Accept: application/json" -X POST http://127.0.0.1:8888/provision -d @provision.json
