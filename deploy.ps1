@@ -1,20 +1,17 @@
 Login-AzureRmAccount
- 
+
 $tenantID = "b7f604a0-00a9-4188-9248-42f3a5aac2e9"
 $subscriptionID = "dc2a4b35-5221-412c-bca8-cb90aef6fbfb"
-$subscriptionName = "EMJU"
 $ResourceGroupLocation = "westus"
+$ResourceGroupName = "EMJU-AZPR-DSE"
+$DeploymentName = "DSEDeployment"
 
-$subscriptionArgs = @()
-$subscriptionArgs += ("-ResourceGroupLocation", $ResourceGroupLocation)
-$subscriptionArgs += ("-SubscriptionID",$subscriptionID)
-$subscriptionArgs += ("-SubscriptionName",$subscriptionName)
-$subscriptionArgs += ("-TenantID",$tenantID)
+$DSETemplate = "templates\mainTemplate.json"
+$DSEParameterFile = "parameters\prod.parameters.json"
 
-$invokeArgs = @()
-$invokeArgs += ("-ResourceGroupName","test")
-$invokeArgs += ("-TemplateFile", "templates\mainTemplate.json")
-$invokeArgs += ("-TemplateParametersFile","parameters\prod.parameters.json")
-$invokeArgs += $subscriptionArgs
+Set-AzureRmContext -SubscriptionId $subscriptionID -TenantId $tenantID
 
-# This seems to be missing the command to actually invoke these arguments
+New-AzureRmResourceGroup -Name $ResourceGroupName `
+                       -Location $ResourceGroupLocation `
+
+New-AzureRmResourceGroupDeployment -Name $DeploymentName -ResourceGroupName $ResourceGroupName -TemplateFile $DSETemplate -TemplateParameterFile $DSEParameterFile -Force -Verbose
