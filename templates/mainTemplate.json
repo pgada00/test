@@ -36,22 +36,22 @@
     "vnetName2": "vnet2",
     "subnetName1": "subnet1",
     "subnetName2": "subnet2",
-    "opsCenterIP": "10.0.200.5",
+    "opsCenterIP": "10.0.0.5",
     "clusterRange1": {
-      "base": "10.0.200.",
-      "start": 6
+      "base": "10.1.0.",
+      "start": 5
     },
     "clusterRange2": {
-      "base": "10.0.200.",
-      "start": 12
+      "base": "10.2.0.",
+      "start": 5
     },
     "clusterRange3": {
-      "base": "10.1.200.",
-      "start": 6
+      "base": "10.3.0.",
+      "start": 5
     },
     "clusterRange4": {
-      "base": "10.1.200.",
-      "start": 12
+      "base": "10.4.0.",
+      "start": 5
     },
     "clusterNodeCount1": 6,
     "clusterNodeCount2": 3,
@@ -84,14 +84,14 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "10.0.0.0/16"
+            "10.0.0.0/8"
           ]
         },
         "subnets": [
           {
             "name": "[variables('subnetName1')]",
             "properties": {
-              "addressPrefix": "10.0.200.0/24"
+              "addressPrefix": "10.0.0.0/8"
             }
           }
         ]
@@ -105,14 +105,14 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "10.1.0.0/16"
+            "10.0.0.0/8"
           ]
         },
         "subnets": [
           {
             "name": "[variables('subnetName2')]",
             "properties": {
-              "addressPrefix": "10.1.200.0/24"
+              "addressPrefix": "10.0.0.0/8"
             }
           }
         ]
