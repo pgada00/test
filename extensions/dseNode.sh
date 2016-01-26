@@ -11,4 +11,3 @@ bash vm-disk-utils-0.1.sh
 
 echo "Modifying permissions"
 chmod 777 /mnt
-
