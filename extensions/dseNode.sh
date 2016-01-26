@@ -1,6 +1,12 @@
 #!/bin/bash
 
 echo $(basename "$0") "$@"
+DATACENTERNAME=$1
+SEEDNODEADDRESS=$2
+OPSCENTERADDRESS=$3
+echo DATACENTERNAME=$1
+echo SEEDNODEADDRESS=$2
+echo OPSCENTERADDRESS=$3
 
 # Determine Fault Domain used to create the Rack name to create rackdc.properties 
 # to allow cassandra to place each of 3 replicas on separate fault domains

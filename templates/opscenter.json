@@ -34,30 +34,6 @@
   "resources": [
     {
       "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "opsCenterNSG",
-      "location": "[parameters('location')]",
-      "properties": {
-        "securityRules": [
-          {
-            "name": "All",
-            "properties": {
-              "description": "Allows all traffic",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "*",
-              "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 100,
-              "direction": "Inbound"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "opsCenterPublicIP",
       "location": "[parameters('location')]",
@@ -74,8 +50,7 @@
       "name": "opsCenterNIC",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', 'opsCenterPublicIP')]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', 'opsCenterNSG')]"
+        "[concat('Microsoft.Network/publicIPAddresses/', 'opsCenterPublicIP')]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -89,9 +64,6 @@
               "privateIPAddress": "[parameters('staticIp')]",
               "subnet": {
                 "id": "[variables('subnetRef')]"
-              },
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'opsCenterNSG')]"
               }
             }
           }
@@ -121,7 +93,7 @@
           "vmSize": "Standard_A1"
         },
         "osProfile": {
-          "computername": "opscenter",
+          "computerName": "ProdOpsCenter",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -148,4 +120,3 @@
   ],
   "outputs": {}
 }
-

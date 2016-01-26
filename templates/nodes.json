@@ -34,6 +34,9 @@
     },
     "subnetName": {
       "type": "string"
+    },
+    "opscenterAddress": {
+        "type": "string"
     }
   },
   "variables": {
@@ -63,30 +66,6 @@
     },
     {
       "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[parameters('namespace')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "securityRules": [
-          {
-            "name": "All",
-            "properties": {
-              "description": "Allows all traffic",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "*",
-              "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 100,
-              "direction": "Inbound"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[concat(parameters('namespace'), 'publicIP', copyindex())]",
       "location": "[parameters('location')]",
@@ -111,8 +90,7 @@
         "count": "[parameters('nodeCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), 'publicIP', copyindex())]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('namespace'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), 'publicIP', copyindex())]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -126,9 +104,6 @@
               "privateIPAddress": "[concat(parameters('staticIps').base, copyindex(parameters('staticIps').start))]",
               "subnet": {
                 "id": "[variables('subnetRef')]"
-              },
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('namespace'))]"
               }
             }
           }
@@ -157,7 +132,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computername": "[concat(parameters('namespace'), 'vm', copyIndex())]",
+          "computerName": "[concat(parameters('namespace'), 'vm', copyIndex())]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -200,7 +175,7 @@
         "typeHandlerVersion": "1.2",
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "bash dseNode.sh"
+          "commandToExecute": "[concat('bash dseNode.sh', ' ', parameters('namespace'), ' ', concat(parameters('staticIps').base, parameters('staticIps').start), ' ', parameters('opscenterAddress'))]"
         }
       }
     }
