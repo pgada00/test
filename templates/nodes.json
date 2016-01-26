@@ -34,6 +34,9 @@
     },
     "subnetName": {
       "type": "string"
+    },
+    "opscenterAddress": {
+        "type": "string"
     }
   },
   "variables": {
@@ -172,7 +175,7 @@
         "typeHandlerVersion": "1.2",
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "bash dseNode.sh"
+          "commandToExecute": "[concat('bash dseNode.sh', ' ', parameters('namespace'), ' ', concat(parameters('staticIps').base, parameters('staticIps').start), ' ', parameters('opscenterAddress'))]"
         }
       }
     }

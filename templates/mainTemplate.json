@@ -151,6 +151,9 @@
           },
           "subnetName": {
             "value": "[parameters('subnetName1')]"
+          },
+          "opscenterAddress": {
+              "value": "[variables('opscenterID')]"
           }
         }
       }
@@ -201,6 +204,9 @@
           },
           "subnetName": {
             "value": "[parameters('subnetName2')]"
+          },
+          "opscenterAddress": {
+              "value": "[variables('opscenterID')]"
           }
         }
       }
@@ -251,6 +257,9 @@
           },
           "subnetName": {
             "value": "[parameters('subnetName3')]"
+          },
+          "opscenterAddress": {
+              "value": "[variables('opscenterID')]"
           }
         }
       }
@@ -301,6 +310,9 @@
           },
           "subnetName": {
             "value": "[parameters('subnetName4')]"
+          },
+          "opscenterAddress": {
+              "value": "[variables('opscenterID')]"
           }
         }
       }
