@@ -162,9 +162,7 @@
       "name": "nodes2",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName1'))]"
-      ],
+      "dependsOn": [ ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -215,9 +213,7 @@
       "name": "nodes3",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName2'))]"
-      ],
+      "dependsOn": [ ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -268,9 +264,7 @@
       "name": "nodes4",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName2'))]"
-      ],
+      "dependsOn": [ ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -348,10 +342,10 @@
             "value": "[variables('opsCenterIP')]"
           },
           "vnetName": {
-            "value": "[variables('vnetName1')]"
+            "value": "[parameters('vnetName1')]"
           },
           "subnetName": {
-            "value": "[variables('subnetName1')]"
+            "value": "[parameters('subnetName1')]"
           }
         }
       }
