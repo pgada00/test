@@ -26,10 +26,22 @@
             "description": "VNet of first data center."
         }
     },
+    "networkResourceGroupName1": {
+        "type": "string",
+        "metadata": {
+            "description": "Network Resource Group Name 1"
+        }
+    },
     "vnetName2": {
         "type": "string",
         "metadata": {
             "description": "VNet of the secondary data center."
+        }
+    },
+    "networkResourceGroupName2": {
+        "type": "string",
+        "metadata": {
+            "description": "Network Resource Group name 2"
         }
     },
     "subnetName1": {
@@ -83,12 +95,12 @@
       "base": "10.1.202.",
       "start": 6
     },
-    "vnet1-id":"[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/virtualNetworks',parameters('vnetName1')))]",
-    "subnet1-id": "[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/subnets',parameters('Data_WestOLTP')))]",
-    "subnet2-id": "[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/subnets',parameters('Data_WestAnalytics')))]",
-    "vnet2-id":"[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/virtualNetworks',parameters('vnetName2')))]",
-    "subnet3-id": "[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/subnets',parameters('Data_EastOLTP')))]",
-    "subnet4-id": "[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/subnets',parameters('Data_EastAnalytics')))]",
+    "vnet1-id":"[concat(resourceId(parameters('networkResourceGroupName1'),'Microsoft.Network/virtualNetworks',parameters('vnetName1')))]",
+    "subnet1-id": "[concat(resourceId(parameters('networkResourceGroupName1'),'Microsoft.Network/subnets',parameters('subnetName1')))]",
+    "subnet2-id": "[concat(resourceId(parameters('networkResourceGroupName1'),'Microsoft.Network/subnets',parameters('subnetName2')))]",
+    "vnet2-id":"[concat(resourceId(parameters('networkResourceGroupName2'),'Microsoft.Network/virtualNetworks',parameters('vnetName2')))]",
+    "subnet3-id": "[concat(resourceId(parameters('networkResourceGroupName2'),'Microsoft.Network/subnets',parameters('subnetName3')))]",
+    "subnet4-id": "[concat(resourceId(parameters('networkResourceGroupName2'),'Microsoft.Network/subnets',parameters('subnetName4')))]",
     "clusterNodeCount1": 6,
     "clusterNodeCount2": 3,
     "clusterNodeCount3": 6,

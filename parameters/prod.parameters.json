@@ -11,8 +11,14 @@
   "vnetName1": {
       "value": "EMJU-VNet"
   },
+  "networkResourceGroupName1": {
+      "value": "EMJU-AZPR-Network"
+  },
   "vnetName2": {
       "value": "EMJU-Vnet-eastus"
+  },
+  "NetworkResourceGroupName2": {
+      "value": "EMJU-AZPR-Network-eastus"
   },
   "subnetName1": {
       "value": "Data_WestOLTP"
