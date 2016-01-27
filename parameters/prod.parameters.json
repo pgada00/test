@@ -17,7 +17,7 @@
   "vnetName2": {
       "value": "EMJU-Vnet-eastus"
   },
-  "NetworkResourceGroupName2": {
+  "networkResourceGroupName2": {
       "value": "EMJU-AZPR-Network-eastus"
   },
   "subnetName1": {

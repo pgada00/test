@@ -28,8 +28,7 @@
     }
   },
   "variables": {
-    "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]",
-    "storageAccountName": "[concat('opsCenter', parameters('uniqueString'))]"
+        "storageAccountName": "[concat('opsCenter', parameters('uniqueString'))]"
   },
   "resources": [
     {
@@ -63,7 +62,7 @@
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[parameters('staticIp')]",
               "subnet": {
-                "id": "[variables('subnetRef')]"
+                "id": "[parameters('subnetName')]"
               }
             }
           }
