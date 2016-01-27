@@ -150,7 +150,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "prodwestoltp"
+            "value": "prwestoltp"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -201,7 +201,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "prodwestaly"
+            "value": "prwestaly"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -252,7 +252,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "prodeastoltp"
+            "value": "preastoltp"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -303,7 +303,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "prodeastanaly"
+            "value": "preastanaly"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
