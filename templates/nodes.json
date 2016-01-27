@@ -40,7 +40,6 @@
     }
   },
   "variables": {
-    "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName')), '/subnets/', parameters('subnetName'))]",
     "vmName": "[concat(parameters('namespace'), 'vm')]",
     "storageAccountName": "[concat(parameters('namespace'), parameters('uniqueString'))]"
   },
@@ -103,7 +102,7 @@
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[concat(parameters('staticIps').base, copyindex(parameters('staticIps').start))]",
               "subnet": {
-                "id": "[variables('subnetRef')]"
+                "id": "[parameters('subnetName')]"
               }
             }
           }
