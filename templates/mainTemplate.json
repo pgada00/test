@@ -201,7 +201,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "prodwestanalytics"
+            "value": "prodwestaly"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -303,7 +303,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "prodeastanalytics"
+            "value": "prodeastanaly"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
