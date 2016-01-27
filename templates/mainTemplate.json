@@ -363,7 +363,7 @@
             "value": "[variables('vnet1-id')]"
           },
           "subnetName": {
-            "value": "[variables('subnet4-id')]"
+            "value": "[variables('subnet1-id')]"
           }
         }
       }
