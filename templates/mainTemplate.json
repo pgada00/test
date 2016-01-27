@@ -83,6 +83,12 @@
       "base": "10.1.202.",
       "start": 6
     },
+    "vnet1-id":"[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/virtualNetworks',parameter('vnetName1'))]",
+    "subnet1-id": "[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/subnets',parameters('Data_WestOLTP'))]",
+    "subnet2-id": "[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/subnets',parameters('Data_WestAnalytics'))]",
+    "vnet2-id":"[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/virtualNetworks',parameter('vnetName2'))]",
+    "subnet3-id": "[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/subnets',parameters('Data_EastOLTP'))]",
+    "subnet4-id": "[concat(resourceId(parameters('virtualNetworkResourceGroup'),'Microsoft.Network/subnets',parameters('Data_EastAnalytics'))]",
     "clusterNodeCount1": 6,
     "clusterNodeCount2": 3,
     "clusterNodeCount3": 6,
@@ -132,7 +138,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "ProdWestOLTP"
+            "value": "prodwestoltp"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -147,13 +153,13 @@
             "value": "[variables('clusterRange1')]"
           },
           "vnetName": {
-            "value": "[parameters('vnetName1')]"
+            "value": "[variables('vnet1-id')]"
           },
           "subnetName": {
-            "value": "[parameters('subnetName1')]"
+            "value": "[variables('subnet1-id')]"
           },
           "opscenterAddress": {
-              "value": "[variables('opscenterID')]"
+              "value": "[variables('opscenterIP')]"
           }
         }
       }
@@ -183,7 +189,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "ProdWestAnalytics"
+            "value": "prodwestanalytics"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -198,13 +204,13 @@
             "value": "[variables('clusterRange2')]"
           },
           "vnetName": {
-            "value": "[parameters('vnetName1')]"
+            "value": "[variables('vnet1-id')]"
           },
           "subnetName": {
-            "value": "[parameters('subnetName2')]"
+            "value": "[variables('subnet2-id')]"
           },
           "opscenterAddress": {
-              "value": "[variables('opscenterID')]"
+              "value": "[variables('opscenterIP')]"
           }
         }
       }
@@ -234,7 +240,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "ProdEastOLTP"
+            "value": "prodeastoltp"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -249,13 +255,13 @@
             "value": "[variables('clusterRange3')]"
           },
           "vnetName": {
-            "value": "[parameters('vnetName2')]"
+            "value": "[variables('vnet2-id')]"
           },
           "subnetName": {
-            "value": "[parameters('subnetName3')]"
+            "value": "[variables('subnet3-id')]"
           },
           "opscenterAddress": {
-              "value": "[variables('opscenterID')]"
+              "value": "[variables('opscenterIP')]"
           }
         }
       }
@@ -285,7 +291,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "ProdEastAnalytics"
+            "value": "prodeastanalytics"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -300,13 +306,13 @@
             "value": "[variables('clusterRange4')]"
           },
           "vnetName": {
-            "value": "[parameters('vnetName2')]"
+            "value": "[variables('vnet2-id')]"
           },
           "subnetName": {
-            "value": "[parameters('subnetName4')]"
+            "value": "[variables('subnet4-id')]"
           },
           "opscenterAddress": {
-              "value": "[variables('opscenterID')]"
+              "value": "[variables('opscenterIP')]"
           }
         }
       }
@@ -342,10 +348,10 @@
             "value": "[variables('opsCenterIP')]"
           },
           "vnetName": {
-            "value": "[parameters('vnetName1')]"
+            "value": "[variables('vnet1-id')]"
           },
           "subnetName": {
-            "value": "[parameters('subnetName1')]"
+            "value": "[variables('subnet4-id')]"
           }
         }
       }
