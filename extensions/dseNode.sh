@@ -223,7 +223,6 @@ cat cassandra.yaml \
 > cassandra.yaml.new
 (set -x; chown cassandra:cassandra cassandra.yaml.new)
 (set -x; diff cassandra.yaml cassandra.yaml.new)
-exit
 (set -x; mv -f cassandra.yaml.new cassandra.yaml )
 
 #
