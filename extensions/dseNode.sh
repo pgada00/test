@@ -7,11 +7,11 @@ opscenter_public_ip=$3
 node_public_ip=$4
 node_private_ip=$5
 
-if [ -n $data_center_name ]; then	data_center_name=`printf '%s' 'data_center_name: ' >&2; read val; echo $val;`; fi
-if [ -n $seed_node_public_ip ]; then	seed_node_public_ip=40.76.36.194; fi
+if [ -n $data_center_name ]; then		data_center_name=`printf '%s' 'data_center_name: ' >&2; read val; echo $val;`; fi
+if [ -n $seed_node_public_ip ]; then	seed_node_public_ip=104.40.22.205; fi
 if [ -n $opscenter_public_ip ]; then 	opscenter_public_ip=40.112.212.167; fi
-if [ -n $node_public_ip ]; then 	node_public_ip=`curl -s 'http://checkip.dyndns.org' | sed 's/.*Current IP Address: \([0-9\.]*\).*/\1/g'`; fi
-if [ -n $node_private_ip ]; then	node_private_ip=`hostname -I`; fi
+if [ -n $node_public_ip ]; then 		node_public_ip=`curl -s 'http://checkip.dyndns.org' | sed 's/.*Current IP Address: \([0-9\.]*\).*/\1/g'`; fi
+if [ -n $node_private_ip ]; then		node_private_ip=`hostname -I`; fi
 
 echo ''
 echo data_center_name $data_center_name 
@@ -43,6 +43,7 @@ set -x
 #apt-add-repository -y "deb http://repos.azulsystems.com/ubuntu stable main"
 #apt-get -y update
 #apt-get -y install zulu-8
+apt-get -Y remove zulu-8
 
 #
 # rpm install
@@ -81,18 +82,23 @@ set +x
 #
 cassandra_conf_dir=/etc/dse/cassandra
 agent_conf_dir=/var/lib/datastax-agent/conf
+security_dir=/etc/security
+limitd_dir=/etc/security/limits.d
 
 date=$(date +%F)
 cassandraenv_backup="cassandra-env.sh.$date"
 cassandrayaml_backup="cassandra.yaml.$date"
 rackdc_properties_backup="cassandra-rackdc.properties.$date"
 addressyaml_backup="address.yaml.$date"
+limitsconf_backup="limits.conf.$date"
+limitd_backup="cassandra.conf.$date"
 
-cd "$cassandra_conf_dir"
 
 #
 # Create backup files if they don't exist
 #
+cd "$cassandra_conf_dir"
+
 if [ ! -f "$cassandraenv_backup" ] ; then
 	( set -x
 		cp cassandra-env.sh "$cassandraenv_backup"
@@ -116,7 +122,6 @@ fi
 
 cd "$agent_conf_dir"
 
-
 if [ ! -f "$addressyaml_backup" ] ; then
 	if [ ! -f address.yaml ] ; then
 		( echo address.yaml empty; set -x ; touch address.yaml )
@@ -127,6 +132,24 @@ if [ ! -f "$addressyaml_backup" ] ; then
 		chown cassandra:cassandra "$addressyaml_backup"
 	)
 fi
+
+cd "$security_dir"
+
+if [ ! -f "$limitsconf_backup" ] ; then
+	( set -x
+		cp limits.conf "$limitsconf_backup"
+		chown cassandra:cassandra "$limitsconf_backup"
+	)
+fi
+
+#cd "$limitd_dir"
+#
+#if [ ! -f "$limitd_backup" ] ; then
+#	( set -x
+#		cp cassandra.conf "$limitd_backup"
+#		chown cassandra:cassandra "$limitd_backup"
+#	)
+#fi
 
 
 cd "$cassandra_conf_dir"
@@ -150,10 +173,11 @@ cat cassandra-env.sh \
 # Generate cassandra.yaml
 #
 cluster_name='J4U Prod Cluster'
-seeds="10.0.201.6"
+seeds="$seed_node_public_ip"
 listen_address=$node_private_ip
 broadcast_address=$node_public_ip
-rpc_address=$node_public_ip
+rpc_address=$node_private_ip
+broadcast_rpc_address=$node_public_ip
 endpoint_snitch="GossipingPropertyFileSnitch"
 num_tokens=64
 data_file_directories="/mnt/cassandra/data"
@@ -245,39 +269,50 @@ if [ "x$(grep max_reconnect_time address.yaml)" == x ]; then echo "max_reconnect
 (set -x; chown cassandra:cassandra address.yaml.new)
 (set -x; diff address.yaml address.yaml.new)
 (set -x; mv -f address.yaml.new address.yaml)
-#cassandra_conf: /Users/richrein/dse/resources/cassandra/conf/cassandra.yaml
-#monitor_command: /Users/richrein/dse/datastax-agent/bin/datastax_agent_monitor
-#cassandra_log_location: /var/log/cassandra/system.log
-#!/bin/bash
 
+#
+# configure limits
+#
+cd "$security_dir"
+cat limits.conf \
+| grep -v 'root.*memlock.*' \
+| grep -v 'root.*nofile.*' \
+| grep -v 'root.*nproc.*' \
+| grep -v 'root.*as.*' \
+| grep -v 'cassandra.*memlock.*' \
+| grep -v 'cassandra.*nofile.*' \
+| grep -v 'cassandra.*nproc.*' \
+| grep -v 'cassandra.*as.*' \
+> limits.conf.new
+cat <</EOF >> limits.conf.new
+root             -      memlock          unlimited
+root             -      nofile           100000
+root             -      nproc            32768
+root             -      as               unlimited
 
+cassandra        -      memlock          unlimited
+cassandra        -      nofile           100000
+cassandra        -      nproc            32768
+cassandra        -      as               unlimited
+/EOF
+(set -x; chown cassandra:cassandra limits.conf.new)
+(set -x; diff limits.conf limits.conf.new)
+(set -x; mv -f limits.conf.new limits.conf)
 
-# echo $(basename "$0") "$@"
-# DATACENTERNAME=$1
-# SEEDNODEADDRESS=$2
-# OPSCENTERADDRESS=$3
-# echo DATACENTERNAME=$1
-# echo SEEDNODEADDRESS=$2
-# echo OPSCENTERADDRESS=$3
+#cd "$limitd_dir"
+#cat cassandra.conf \
+#| grep -v 'cassandra.*memlock.*' \
+#| grep -v 'cassandra.*nofile.*' \
+#| grep -v 'cassandra.*nproc.*' \
+#| grep -v 'cassandra.*as.*' \
+#> cassandra.conf.new
+#cat <</EOF >> cassandra.conf.new
+#cassandra        -      memlock          unlimited
+#cassandra        -      nofile           100000
+#cassandra        -      nproc            32768
+#cassandra        -      as               unlimited
+#/EOF
+#(set -x; chown cassandra:cassandra cassandra.conf.new)
+#(set -x; diff cassandra.conf cassandra.conf.new)
+#(set -x; mv -f cassandra.conf.new cassandra.conf)
 
-# # Determine Fault Domain used to create the Rack name to create rackdc.properties 
-# # to allow cassandra to place each of 3 replicas on separate fault domains
-# fault_domain=$(curl http://169.254.169.254/metadata/v1/InstanceInfo -s -S | sed -e 's/.*"FD":"\([^"]*\)".*/\1/')
-# if [ ! "$fault_domain" ]; then
-# 	echo Unable to retrieve Instance Fault Domain from instance metadata server 1>&2
-# 	exit 99
-# fi
-# echo Fault Domain: "$fault_domain"
-# echo ""
-
-# echo "Installing Azul Zulu JDK"
-# apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9
-# apt-add-repository -y "deb http://repos.azulsystems.com/ubuntu stable main"
-# apt-get -y update
-# apt-get -y install zulu-8
-
-# echo "Partitioning and formatting all attached data disks"
-# bash vm-disk-utils-0.1.sh
-
-# echo "Modifying permissions"
-# chmod 777 /mnt
