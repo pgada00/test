@@ -43,7 +43,7 @@ set -x
 #apt-add-repository -y "deb http://repos.azulsystems.com/ubuntu stable main"
 #apt-get -y update
 #apt-get -y install zulu-8
-apt-get -Y remove zulu-8
+apt-get -y remove zulu-8
 
 #
 # rpm install
@@ -52,12 +52,13 @@ apt-get -Y remove zulu-8
 
 #--- download and Install Java ---#
 echo | add-apt-repository ppa:webupd8team/java
-apt-get -Y  update
-apt-get -Y  install oracle-java8-installer
-apt-get -Y  install oracle-java8-set-default
+apt-get -y  update
+apt-get -y  install oracle-java8-installer
+apt-get -y  install oracle-java8-set-default
 java -version
-update-alternatives -y --config java
- 
+update-alternatives --force --config java
+java -version
+
 #--- Install Utilities ---#
 apt-get -y install mlocate
 apt-get -y install vim-enhanced
@@ -203,6 +204,7 @@ cat cassandra.yaml \
 | sed -e "s:.*\(listen_address\:\).*:listen_address\: $listen_address:" \
 | sed -e "s:.*\(broadcast_address\:\).*:broadcast_address\: $broadcast_address:" \
 | sed -e "s:.*\(rpc_address\:\).*:rpc_address\: $rpc_address:" \
+| sed -e "s:.*\(broadcast_rpc_address\:\).*:broadcast_rpc_address\: $broadcast_rpc_address:" \
 | sed -e "s:.*\(endpoint_snitch\:\).*:endpoint_snitch\: $endpoint_snitch:" \
 | sed -e "s:.*\(num_tokens\:\).*:\1 $num_tokens:" \
 | sed -e "s:\(.*- \)/var/lib/cassandra/data.*:\1$data_file_directories:" \
