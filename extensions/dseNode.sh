@@ -33,8 +33,6 @@ rack="FD$fault_domain"
 echo rack: $rack
 echo ""
 
-skip() {
-
 set -x
 
 #
@@ -79,8 +77,6 @@ apt-get -y update
 apt-get -y install dse-full
 
 set +x
-
-} # skip
 
 #
 # Preconfigure and tune Cassandra and DataStax Agent
