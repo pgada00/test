@@ -224,7 +224,7 @@ check_mdadm() {
 # Create Partitions
 DISKS=$(scan_for_new_disks)
 
-if [ "$RAID_CONFIGURATION" -eq 1 ]; then
+if [ x"$RAID_CONFIGURATION" == x"1" ]; then
   check_mdadm
   create_striped_volume "${DISKS[@]}"
 else
