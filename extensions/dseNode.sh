@@ -318,3 +318,11 @@ cassandra        -      as               unlimited
 #(set -x; diff cassandra.conf cassandra.conf.new)
 #(set -x; mv -f cassandra.conf.new cassandra.conf)
 
+cat <</EOF >$HOME/.cassandra/cqlshrc 
+[connection]
+client_timeout = 600
+hostname = $node_private_ip
+port = 9042
+/EOF
+(set -x; chown cassandra:cassandra $HOME/.cassandra/cqlshrc)
+(set -x; chmod 755 $HOME/.cassandra/cqlshrc)
