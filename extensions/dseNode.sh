@@ -14,12 +14,11 @@ if [ -n $node_public_ip ]; then 		node_public_ip=`curl -s 'http://checkip.dyndns
 if [ -n $node_private_ip ]; then		node_private_ip=`hostname -I`; fi
 
 echo ''
-echo data_center_name $data_center_name 
-echo seed_node_public_ip $seed_node_public_ip 
-echo opscenter_public_ip $opscenter_public_ip 
-echo node_public_ip $node_public_ip 
-echo node_private_ip $node_private_ip 
-
+echo data_center_name \'$data_center_name\'
+echo seed_node_public_ip \'$seed_node_public_ip\'
+echo opscenter_public_ip \'$opscenter_public_ip\'
+echo node_public_ip \'$node_public_ip\'
+echo node_private_ip \'$node_private_ip\' 
 
 # Determine Fault Domain used to create the Rack name to create rackdc.properties 
 # to allow cassandra to place each of 3 replicas on separate fault domains
