@@ -260,7 +260,7 @@ cat address.yaml \
 | sed -e "s:.*\(max_reconnect_time\:\).*:max_reconnect_time\: $max_reconnect_time:" \
 > address.yaml.new
 if [ "x$(grep stomp_interface address.yaml)" == x ]; then echo "stomp_interface: $stomp_interface" >> address.yaml.new; fi
-if [ "x$(grep hosts address.yaml)" == x ]; then echo "hosts: \[\"$local_interface\"\]" >> address.yaml.new; fi
+if [ "x$(grep hosts address.yaml)" == x ]; then echo "hosts: [\"$local_interface\"]" >> address.yaml.new; fi
 if [ "x$(grep use_ssl address.yaml)" == x ]; then echo "use_ssl: $use_ssl" >> address.yaml.new; fi
 if [ "x$(grep thrift_max_conns address.yaml)" == x ]; then echo "thrift_max_conns: $thrift_max_conns" >> address.yaml.new; fi
 if [ "x$(grep async_pool_size address.yaml)" == x ]; then echo "async_pool_size: $async_pool_size" >> address.yaml.new; fi
@@ -316,6 +316,9 @@ cassandra        -      as               unlimited
 #(set -x; diff cassandra.conf cassandra.conf.new)
 #(set -x; mv -f cassandra.conf.new cassandra.conf)
 
+mkdir $HOME/.cassandra
+set -x; chown cassandra:cassandra $HOME/.cassandra
+chmod 777 $HOME/.cassandra
 cat <</EOF >$HOME/.cassandra/cqlshrc 
 [connection]
 client_timeout = 600
