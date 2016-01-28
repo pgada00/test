@@ -56,7 +56,7 @@ apt-get -y  update
 apt-get -y  install oracle-java8-installer
 apt-get -y  install oracle-java8-set-default
 java -version
-update-alternatives --force --config java
+echo | update-alternatives --force --config java
 java -version
 
 #--- Install Utilities ---#
@@ -201,10 +201,10 @@ write_request_timeout_in_ms=3000
 cat cassandra.yaml \
 | sed -e "s:.*\(cluster_name\:\).*:cluster_name\: \'$cluster_name\':" \
 | sed -e "s:\(.*- *seeds\:\).*:\1 \"$seeds\":" \
-| sed -e "s:.*\(listen_address\:\).*:listen_address\: $listen_address:" \
-| sed -e "s:.*\(broadcast_address\:\).*:broadcast_address\: $broadcast_address:" \
-| sed -e "s:.*\(rpc_address\:\).*:rpc_address\: $rpc_address:" \
-| sed -e "s:.*\(broadcast_rpc_address\:\).*:broadcast_rpc_address\: $broadcast_rpc_address:" \
+| sed -e "s:[#]*\(listen_address\:\).*:listen_address\: $listen_address:" \
+| sed -e "s:[#]*\(broadcast_address\:\).*:broadcast_address\: $broadcast_address:" \
+| sed -e "s:[#]*\(rpc_address\:\).*:rpc_address\: $rpc_address:" \
+| sed -e "s:[#]*\(broadcast_rpc_address\:\).*:broadcast_rpc_address\: $broadcast_rpc_address:" \
 | sed -e "s:.*\(endpoint_snitch\:\).*:endpoint_snitch\: $endpoint_snitch:" \
 | sed -e "s:.*\(num_tokens\:\).*:\1 $num_tokens:" \
 | sed -e "s:\(.*- \)/var/lib/cassandra/data.*:\1$data_file_directories:" \
