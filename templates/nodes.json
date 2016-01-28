@@ -174,7 +174,7 @@
         "typeHandlerVersion": "1.2",
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash dseNode.sh', ' ', parameters('namespace'), ' ', concat(parameters('staticIps').base, parameters('staticIps').start), ' ', parameters('opscenterAddress'))]"
+          "commandToExecute": "[concat('bash dseNode.sh', ' ', parameters('namespace'), ' ', concat(parameters('staticIps').base, parameters('staticIps').start), ' ', parameters('opscenterAddress'), ' ', copyIndex() )]"
         }
       }
     }
