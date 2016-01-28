@@ -33,6 +33,8 @@ rack="FD$fault_domain"
 echo rack: $rack
 echo ""
 
+skip() {
+
 set -x
 
 #
@@ -77,6 +79,8 @@ apt-get -y update
 apt-get -y install dse-full
 
 set +x
+
+} # skip
 
 #
 # Preconfigure and tune Cassandra and DataStax Agent
@@ -153,6 +157,7 @@ fi
 #fi
 
 
+
 cd "$cassandra_conf_dir"
 #
 # Generate cassandra-env.sh.new
@@ -170,6 +175,7 @@ cat cassandra-env.sh \
 (set -x; mv -f cassandra-env.sh.new cassandra-env.sh)
 
 
+set -x
 #
 # Generate cassandra.yaml
 #
@@ -201,10 +207,10 @@ write_request_timeout_in_ms=3000
 cat cassandra.yaml \
 | sed -e "s:.*\(cluster_name\:\).*:cluster_name\: \'$cluster_name\':" \
 | sed -e "s:\(.*- *seeds\:\).*:\1 \"$seeds\":" \
-| sed -e "s:[#]*\(listen_address\:\).*:listen_address\: $listen_address:" \
-| sed -e "s:[#]*\(broadcast_address\:\).*:broadcast_address\: $broadcast_address:" \
-| sed -e "s:[#]*\(rpc_address\:\).*:rpc_address\: $rpc_address:" \
-| sed -e "s:[#]*\(broadcast_rpc_address\:\).*:broadcast_rpc_address\: $broadcast_rpc_address:" \
+| sed -e "s:[# ]*\(listen_address\:\).*:listen_address\: $listen_address:" \
+| sed -e "s:[# ]*\(broadcast_address\:\).*:broadcast_address\: $broadcast_address:" \
+| sed -e "s:[# ]*\(rpc_address\:\).*:rpc_address\: $rpc_address:" \
+| sed -e "s:[# ]*\(broadcast_rpc_address\:\).*:broadcast_rpc_address\: $broadcast_rpc_address:" \
 | sed -e "s:.*\(endpoint_snitch\:\).*:endpoint_snitch\: $endpoint_snitch:" \
 | sed -e "s:.*\(num_tokens\:\).*:\1 $num_tokens:" \
 | sed -e "s:\(.*- \)/var/lib/cassandra/data.*:\1$data_file_directories:" \
@@ -221,6 +227,7 @@ cat cassandra.yaml \
 > cassandra.yaml.new
 (set -x; chown cassandra:cassandra cassandra.yaml.new)
 (set -x; diff cassandra.yaml cassandra.yaml.new)
+exit
 (set -x; mv -f cassandra.yaml.new cassandra.yaml )
 
 #
@@ -235,7 +242,6 @@ cat cassandra-rackdc.properties \
 (set -x; chown cassandra:cassandra cassandra-rackdc.properties.new)
 (set -x; diff cassandra-rackdc.properties cassandra-rackdc.properties.new)
 (set -x; mv -f cassandra-rackdc.properties.new cassandra-rackdc.properties )
-
 #
 # generate address.yaml.new
 #

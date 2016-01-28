@@ -1,0 +1,9 @@
+stomp_interface: 40.112.212.167
+local_interface: 10.0.201.7 
+agent_rpc_broadcast_address: 104.40.19.141
+agent_rpc_interface: 10.0.201.7 
+use_ssl: 0
+thrift_max_conns: 10
+async_pool_size: 10
+async_queue_size: 800000
+max_reconnect_time: 60000
