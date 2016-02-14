@@ -1,0 +1,267 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "clusterVmSize": {
+            "type": "string",
+            "metadata": {
+                "description": "The size of virtual machine to provision for each cluster node."
+            }
+        },
+        "adminUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "Admin user name for the virtual machines."
+            }
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Admin password for the virtual machines."
+            }
+        },
+        "vnetName1": {
+            "type": "string",
+            "metadata": {
+                "description": "VNet of first data center."
+            }
+        },
+        "networkResourceGroupName1": {
+            "type": "string",
+            "metadata": {
+                "description": "Network Resource Group Name 1"
+            }
+        },
+        "subnetName1": {
+            "type": "string",
+            "metadata": {
+                "description": "Subnet1 name in VNet1."
+            }
+        },
+        "subnetName2": {
+            "type": "string",
+            "metadata": {
+                "description": "Subnet2 name in VNet1."
+            }
+        },
+        "variables": {
+            "templateBaseUrl": "https://raw.githubusercontent.com/J4U-Nimbus/test/master/",
+            "nodesTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/nodes.json')]",
+            "opsCenterTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenter.json')]",
+            "opsCenterInstallTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenterInstall.json')]",
+            "uniqueString": "[uniqueString(resourceGroup().id, deployment().name)]",
+            "location1": "West US",
+            "opsCenterIP": "10.0.201.5",
+            "clusterRange1": {
+                "base": "10.0.201.",
+                "start": 6
+            },
+            "clusterRange2": {
+                "base": "10.0.202.",
+                "start": 6
+            },
+            "vnet1-id": "[resourceId(parameters('networkResourceGroupName1'), 'Microsoft.Network/virtualNetworks', parameters('vnetName1'))]",
+            "subnet1-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName1'))]",
+            "subnet2-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName2'))]",
+            "clusterNodeCount1": 6,
+            "clusterNodeCount2": 3,
+            "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', variables('clusterNodeCount1'))]",
+            "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', variables('clusterNodeCount2'))]",
+            "osSettings": {
+                "imageReference": {
+                    "publisher": "Canonical",
+                    "offer": "UbuntuServer",
+                    "sku": "14.04.3-LTS",
+                    "version": "latest"
+                },
+                "scripts": [
+                    "[concat(variables('templateBaseUrl'), 'extensions/dseNode.sh')]",
+                    "[concat(variables('templateBaseUrl'), 'extensions/opscenter.sh')]",
+                    "[concat(variables('templateBaseUrl'), 'extensions/vm-disk-utils-0.1.sh')]"
+                ]
+            }
+        },
+        "resources": [
+            {
+                "name": "nodes1",
+                "type": "Microsoft.Resources/deployments",
+                "apiVersion": "2015-01-01",
+                "dependsOn": [
+                ],
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[variables('nodesTemplateUrl')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "uniqueString": {
+                            "value": "[variables('uniqueString')]"
+                        },
+                        "location": {
+                            "value": "[variables('location1')]"
+                        },
+                        "adminUsername": {
+                            "value": "[parameters('adminUsername')]"
+                        },
+                        "adminPassword": {
+                            "value": "[parameters('adminPassword')]"
+                        },
+                        "namespace": {
+                            "value": "perfWoltp"
+                        },
+                        "vmSize": {
+                            "value": "[parameters('clusterVmSize')]"
+                        },
+                        "osSettings": {
+                            "value": "[variables('osSettings')]"
+                        },
+                        "nodeCount": {
+                            "value": "[variables('clusterNodeCount1')]"
+                        },
+                        "staticIps": {
+                            "value": "[variables('clusterRange1')]"
+                        },
+                        "vnetName": {
+                            "value": "[variables('vnet1-id')]"
+                        },
+                        "subnetName": {
+                            "value": "[variables('subnet1-id')]"
+                        },
+                        "opscenterAddress": {
+                            "value": "[variables('opscenterIP')]"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "nodes2",
+                "type": "Microsoft.Resources/deployments",
+                "apiVersion": "2015-01-01",
+                "dependsOn": [ ],
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[variables('nodesTemplateUrl')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "uniqueString": {
+                            "value": "[variables('uniqueString')]"
+                        },
+                        "location": {
+                            "value": "[variables('location1')]"
+                        },
+                        "adminUsername": {
+                            "value": "[parameters('adminUsername')]"
+                        },
+                        "adminPassword": {
+                            "value": "[parameters('adminPassword')]"
+                        },
+                        "namespace": {
+                            "value": "perfWanly"
+                        },
+                        "vmSize": {
+                            "value": "[parameters('clusterVmSize')]"
+                        },
+                        "osSettings": {
+                            "value": "[variables('osSettings')]"
+                        },
+                        "nodeCount": {
+                            "value": "[variables('clusterNodeCount2')]"
+                        },
+                        "staticIps": {
+                            "value": "[variables('clusterRange2')]"
+                        },
+                        "vnetName": {
+                            "value": "[variables('vnet1-id')]"
+                        },
+                        "subnetName": {
+                            "value": "[variables('subnet2-id')]"
+                        },
+                        "opscenterAddress": {
+                            "value": "[variables('opscenterIP')]"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "opscenter",
+                "type": "Microsoft.Resources/deployments",
+                "apiVersion": "2015-01-01",
+                "dependsOn": [ ],
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[variables('opsCenterTemplateUrl')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "uniqueString": {
+                            "value": "[variables('uniqueString')]"
+                        },
+                        "location": {
+                            "value": "[variables('location1')]"
+                        },
+                        "adminUsername": {
+                            "value": "[parameters('adminUsername')]"
+                        },
+                        "adminPassword": {
+                            "value": "[parameters('adminPassword')]"
+                        },
+                        "osSettings": {
+                            "value": "[variables('osSettings')]"
+                        },
+                        "staticIp": {
+                            "value": "[variables('opsCenterIP')]"
+                        },
+                        "vnetName": {
+                            "value": "[variables('vnet1-id')]"
+                        },
+                        "subnetName": {
+                            "value": "[variables('subnet1-id')]"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "opscenter-install",
+                "type": "Microsoft.Resources/deployments",
+                "apiVersion": "2015-01-01",
+                "dependsOn": [
+                    "Microsoft.Resources/deployments/nodes1",
+                    "Microsoft.Resources/deployments/nodes2",
+                    "Microsoft.Resources/deployments/opscenter"
+                ],
+                "properties": {
+                    "mode": "Incremental",
+                    "templateLink": {
+                        "uri": "[variables('opsCenterInstallTemplateUrl')]",
+                        "contentVersion": "1.0.0.0"
+                    },
+                    "parameters": {
+                        "uniqueString": {
+                            "value": "[variables('uniqueString')]"
+                        },
+                        "location": {
+                            "value": "[variables('location1')]"
+                        },
+                        "adminUsername": {
+                            "value": "[parameters('adminUsername')]"
+                        },
+                        "adminPassword": {
+                            "value": "[parameters('adminPassword')]"
+                        },
+                        "osSettings": {
+                            "value": "[variables('osSettings')]"
+                        },
+                        "nodeList": {
+                            "value": "[variables('nodeList1')]"
+                        }
+                    }
+                }
+            }
+        ],
+        "outputs": { }
+    }
+}
