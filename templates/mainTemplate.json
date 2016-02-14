@@ -46,7 +46,7 @@
     },
   "variables": {
     "clusterName": "cluster",
-   "templateBaseUrl": "https://raw.githubusercontent.com/J4U-Nimbus/EMJU_DataStaxARM/test/",
+   "templateBaseUrl": "https://raw.githubusercontent.com/J4U-Nimbus/test/",
    "nodesTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/nodes.json')]",
    "opsCenterTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenter.json')]",
     "opsCenterInstallTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenterInstall.json')]",
