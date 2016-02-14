@@ -1,13 +1,13 @@
 Login-AzureRmAccount
 
 $tenantID = "b7f604a0-00a9-4188-9248-42f3a5aac2e9"
-$subscriptionID = "dc2a4b35-5221-412c-bca8-cb90aef6fbfb"
+$subscriptionID = "ec4b8e6e-6a27-4430-a1ac-3ded010cb563"
 $ResourceGroupLocation = "westus"
-$ResourceGroupName = "EMJU-AZPR-DSE"
-$DeploymentName = "DSEDeployment"
+$ResourceGroupName = "EMJU-AZPFCOPY-DSE"
+$DeploymentName = "PerfDSEDeployment"
 
 $DSETemplate = "templates\mainTemplate.json"
-$DSEParameterFile = "parameters\prod.parameters.json"
+$DSEParameterFile = "parameters\perf.parameters.json"
 
 Set-AzureRmContext -SubscriptionId $subscriptionID -TenantId $tenantID
 
