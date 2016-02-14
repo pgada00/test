@@ -32,19 +32,7 @@
             "description": "Network Resource Group Name 1"
         }
     },
-    "vnetName2": {
-        "type": "string",
-        "metadata": {
-            "description": "VNet of the secondary data center."
-        }
-    },
-    "networkResourceGroupName2": {
-        "type": "string",
-        "metadata": {
-            "description": "Network Resource Group name 2"
-        }
-    },
-    "subnetName1": {
+        "subnetName1": {
         "type": "string",
         "metadata": {
             "description": "Subnet1 name in VNet1."
@@ -56,28 +44,14 @@
             "description": "Subnet2 name in VNet1."
         }
     },
-    "subnetName3": {
-        "type": "string",
-        "metadata": {
-            "description": "Subnet3 name in VNet2."
-        }
-    },
-    "subnetName4": {
-        "type": "string",
-        "metadata": {
-            "description": "Subnet4 name in VNet2."
-        }
-    }
-  },
   "variables": {
     "clusterName": "cluster",
-    "templateBaseUrl": "https://raw.githubusercontent.com/J4U-Nimbus/EMJU_DataStaxARM/master/",
-    "nodesTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/nodes.json')]",
-    "opsCenterTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenter.json')]",
+   "templateBaseUrl": "https://raw.githubusercontent.com/J4U-Nimbus/EMJU_DataStaxARM/test/",
+   "nodesTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/nodes.json')]",
+   "opsCenterTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenter.json')]",
     "opsCenterInstallTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenterInstall.json')]",
     "uniqueString": "[uniqueString(resourceGroup().id, deployment().name)]",
     "location1": "West US",
-    "location2": "East US",
     "opsCenterIP": "10.0.201.5",
     "clusterRange1": {
       "base": "10.0.201.",
@@ -87,28 +61,13 @@
       "base": "10.0.202.",
       "start": 6
     },
-    "clusterRange3": {
-      "base": "10.1.201.",
-      "start": 6
-    },
-    "clusterRange4": {
-      "base": "10.1.202.",
-      "start": 6
-    },
     "vnet1-id": "[resourceId(parameters('networkResourceGroupName1'), 'Microsoft.Network/virtualNetworks', parameters('vnetName1'))]",
     "subnet1-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName1'))]",
     "subnet2-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName2'))]",
-    "vnet2-id": "[resourceId(parameters('networkResourceGroupName2'), 'Microsoft.Network/virtualNetworks', parameters('vnetName2'))]",
-    "subnet3-id": "[concat(variables('vnet2-id'), '/subnets/', parameters('subnetName3'))]",
-    "subnet4-id": "[concat(variables('vnet2-id'), '/subnets/', parameters('subnetName4'))]",
     "clusterNodeCount1": 6,
     "clusterNodeCount2": 3,
-    "clusterNodeCount3": 6,
-    "clusterNodeCount4": 3,
     "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', variables('clusterNodeCount1'))]",
     "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', variables('clusterNodeCount2'))]",
-    "nodeList3": "[concat(variables('clusterRange3').base, variables('clusterRange3').start, '-', variables('clusterNodeCount3'))]",
-    "nodeList4": "[concat(variables('clusterRange4').base, variables('clusterRange4').start, '-', variables('clusterNodeCount4'))]",
     "osSettings": {
       "imageReference": {
         "publisher": "Canonical",
@@ -150,7 +109,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "prwestoltp"
+            "value": "perfWoltp"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -201,7 +160,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "namespace": {
-            "value": "prwestaly"
+            "value": "perfWanly"
           },
           "vmSize": {
             "value": "[parameters('clusterVmSize')]"
@@ -220,108 +179,6 @@
           },
           "subnetName": {
             "value": "[variables('subnet2-id')]"
-          },
-          "opscenterAddress": {
-              "value": "[variables('opscenterIP')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "nodes3",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [ ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('nodesTemplateUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "uniqueString": {
-            "value": "[variables('uniqueString')]"
-          },
-          "location": {
-            "value": "[variables('location2')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "namespace": {
-            "value": "preastoltp"
-          },
-          "vmSize": {
-            "value": "[parameters('clusterVmSize')]"
-          },
-          "osSettings": {
-            "value": "[variables('osSettings')]"
-          },
-          "nodeCount": {
-            "value": "[variables('clusterNodeCount3')]"
-          },
-          "staticIps": {
-            "value": "[variables('clusterRange3')]"
-          },
-          "vnetName": {
-            "value": "[variables('vnet2-id')]"
-          },
-          "subnetName": {
-            "value": "[variables('subnet3-id')]"
-          },
-          "opscenterAddress": {
-              "value": "[variables('opscenterIP')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "nodes4",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [ ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('nodesTemplateUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "uniqueString": {
-            "value": "[variables('uniqueString')]"
-          },
-          "location": {
-            "value": "[variables('location2')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "namespace": {
-            "value": "preastanaly"
-          },
-          "vmSize": {
-            "value": "[parameters('clusterVmSize')]"
-          },
-          "osSettings": {
-            "value": "[variables('osSettings')]"
-          },
-          "nodeCount": {
-            "value": "[variables('clusterNodeCount4')]"
-          },
-          "staticIps": {
-            "value": "[variables('clusterRange4')]"
-          },
-          "vnetName": {
-            "value": "[variables('vnet2-id')]"
-          },
-          "subnetName": {
-            "value": "[variables('subnet4-id')]"
           },
           "opscenterAddress": {
               "value": "[variables('opscenterIP')]"
@@ -375,8 +232,6 @@
       "dependsOn": [
         "Microsoft.Resources/deployments/nodes1",
         "Microsoft.Resources/deployments/nodes2",
-        "Microsoft.Resources/deployments/nodes3",
-        "Microsoft.Resources/deployments/nodes4",
         "Microsoft.Resources/deployments/opscenter"
       ],
       "properties": {
