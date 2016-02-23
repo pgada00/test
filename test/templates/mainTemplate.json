@@ -1,7 +1,7 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
         "clusterVmSize": {
             "type": "string",
             "metadata": {
@@ -43,45 +43,47 @@
             "metadata": {
                 "description": "Subnet2 name in VNet1."
             }
+        }
         },
-        "variables": {
-            "templateBaseUrl": "https://raw.githubusercontent.com/J4U-Nimbus/test/master/",
-            "nodesTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/nodes.json')]",
-            "opsCenterTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenter.json')]",
-            "opsCenterInstallTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenterInstall.json')]",
-            "uniqueString": "[uniqueString(resourceGroup().id, deployment().name)]",
-            "location1": "West US",
-            "opsCenterIP": "10.0.201.5",
-            "clusterRange1": {
-                "base": "10.0.201.",
+  "variables": {
+    "clusterName": "cluster",
+    "templateBaseUrl": "https://raw.githubusercontent.com/J4U-Nimbus/test/master/",
+    "nodesTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/nodes.json')]",
+    "opsCenterTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenter.json')]",
+    "opsCenterInstallTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenterInstall.json')]",
+    "uniqueString": "[uniqueString(resourceGroup().id, deployment().name)]",
+    "location1": "West US",
+    "opsCenterIP": "10.0.201.5",
+    "clusterRange1": {
+    "base": "10.0.201.",
                 "start": 6
             },
-            "clusterRange2": {
+    "clusterRange2": {
                 "base": "10.0.202.",
                 "start": 6
             },
-            "vnet1-id": "[resourceId(parameters('networkResourceGroupName1'), 'Microsoft.Network/virtualNetworks', parameters('vnetName1'))]",
-            "subnet1-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName1'))]",
-            "subnet2-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName2'))]",
-            "clusterNodeCount1": 6,
-            "clusterNodeCount2": 3,
-            "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', variables('clusterNodeCount1'))]",
-            "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', variables('clusterNodeCount2'))]",
-            "osSettings": {
-                "imageReference": {
+   "vnet1-id": "[resourceId(parameters('networkResourceGroupName1'), 'Microsoft.Network/virtualNetworks', parameters('vnetName1'))]",
+   "subnet1-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName1'))]",
+   "subnet2-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName2'))]",
+   "clusterNodeCount1": 6,
+   "clusterNodeCount2": 5,
+   "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', variables('clusterNodeCount1'))]",
+   "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', variables('clusterNodeCount2'))]",
+   "osSettings": {
+   "imageReference": {
                     "publisher": "Canonical",
                     "offer": "UbuntuServer",
                     "sku": "14.04.3-LTS",
                     "version": "latest"
                 },
-                "scripts": [
+   "scripts": [
                     "[concat(variables('templateBaseUrl'), 'extensions/dseNode.sh')]",
                     "[concat(variables('templateBaseUrl'), 'extensions/opscenter.sh')]",
                     "[concat(variables('templateBaseUrl'), 'extensions/vm-disk-utils-0.1.sh')]"
                 ]
             }
         },
-        "resources": [
+  "resources": [
             {
                 "name": "nodes1",
                 "type": "Microsoft.Resources/deployments",
@@ -108,7 +110,7 @@
                             "value": "[parameters('adminPassword')]"
                         },
                         "namespace": {
-                            "value": "perfWoltp"
+                            "value": "pfwestoltp"
                         },
                         "vmSize": {
                             "value": "[parameters('clusterVmSize')]"
@@ -159,7 +161,7 @@
                             "value": "[parameters('adminPassword')]"
                         },
                         "namespace": {
-                            "value": "perfWanly"
+                            "value": "pfwestanly"
                         },
                         "vmSize": {
                             "value": "[parameters('clusterVmSize')]"
@@ -262,6 +264,5 @@
                 }
             }
         ],
-        "outputs": { }
-    }
+  "outputs": { }
 }
