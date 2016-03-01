@@ -26,9 +26,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Compile Include="deploy.ps1" />
     <Compile Include="Script.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="extensions\" />
+    <Folder Include="parameters\" />
+    <Folder Include="templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="deploy.sh" />
+    <Content Include="extensions\dseNode.sh" />
+    <Content Include="extensions\opscenter.py" />
+    <Content Include="extensions\opscenter.sh" />
+    <Content Include="extensions\vm-disk-utils-0.1.sh" />
+    <Content Include="parameters\perf.parameters.json" />
+    <Content Include="templates\mainTemplate.json" />
+    <Content Include="templates\nodes.json" />
+    <Content Include="templates\opscenter.json" />
+    <Content Include="templates\opscenterInstall.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

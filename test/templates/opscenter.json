@@ -28,7 +28,7 @@
     }
   },
   "variables": {
-        "storageAccountName": "[concat('opsCenter', parameters('uniqueString'))]"
+        "storageAccountName": "[concat('opscenter', parameters('uniqueString'))]"
   },
   "resources": [
     {
@@ -75,7 +75,7 @@
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "properties": {
-        "accountType": "Standard_LRS"
+        "accountType": "Standard_GRS"
       }
     },
     {
@@ -92,7 +92,7 @@
           "vmSize": "Standard_A1"
         },
         "osProfile": {
-          "computerName": "ProdOpsCenter",
+          "computerName": "PerfOpsCenter",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },

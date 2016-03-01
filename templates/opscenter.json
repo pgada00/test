@@ -28,7 +28,7 @@
     }
   },
   "variables": {
-        "storageAccountName": "[concat('opsCenter', parameters('uniqueString'))]"
+        "storageAccountName": "[concat('opscenter', parameters('uniqueString'))]"
   },
   "resources": [
     {

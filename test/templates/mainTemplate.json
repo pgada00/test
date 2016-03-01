@@ -53,20 +53,20 @@
     "opsCenterInstallTemplateUrl": "[concat(variables('templateBaseUrl'), 'templates/opscenterInstall.json')]",
     "uniqueString": "[uniqueString(resourceGroup().id, deployment().name)]",
     "location1": "West US",
-    "opsCenterIP": "10.0.201.5",
+    "opsCenterIP": "10.0.201.200",
     "clusterRange1": {
     "base": "10.0.201.",
-                "start": 6
+                "start": 201
             },
     "clusterRange2": {
                 "base": "10.0.202.",
-                "start": 6
+                "start": 201
             },
    "vnet1-id": "[resourceId(parameters('networkResourceGroupName1'), 'Microsoft.Network/virtualNetworks', parameters('vnetName1'))]",
    "subnet1-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName1'))]",
    "subnet2-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName2'))]",
-   "clusterNodeCount1": 6,
-   "clusterNodeCount2": 5,
+   "clusterNodeCount1": 3,
+   "clusterNodeCount2": 3,
    "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', variables('clusterNodeCount1'))]",
    "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', variables('clusterNodeCount2'))]",
    "osSettings": {
