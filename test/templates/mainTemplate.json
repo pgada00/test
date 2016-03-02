@@ -65,7 +65,7 @@
    "vnet1-id": "[resourceId(parameters('networkResourceGroupName1'), 'Microsoft.Network/virtualNetworks', parameters('vnetName1'))]",
    "subnet1-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName1'))]",
    "subnet2-id": "[concat(variables('vnet1-id'), '/subnets/', parameters('subnetName2'))]",
-   "clusterNodeCount1": 3,
+   "clusterNodeCount1": 6,
    "clusterNodeCount2": 3,
    "nodeList1": "[concat(variables('clusterRange1').base, variables('clusterRange1').start, '-', variables('clusterNodeCount1'))]",
    "nodeList2": "[concat(variables('clusterRange2').base, variables('clusterRange2').start, '-', variables('clusterNodeCount2'))]",
