@@ -90,7 +90,7 @@
       },
       "dependsOn": [
       "[concat('Microsoft.Network/publicIPAddresses/', parameters('namespace'), 'publicIP', copyindex())]"
-      ]
+      ],
       "properties": {
         "ipConfigurations": [
           {
