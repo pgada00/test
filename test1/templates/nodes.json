@@ -34,10 +34,10 @@
     },
     "subnetName": {
       "type": "string"
-//    },
-//    "opscenterAddress": {
-//        "type": "string"
- //   }
+    },
+    "opscenterAddress": {
+        "type": "string"
+    }
   },
   "variables": {
     "vmName": "[concat(parameters('namespace'), 'vm')]",
