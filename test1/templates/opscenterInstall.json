@@ -25,7 +25,7 @@
   "resources": [
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "qa1upcopcvm/installopscenter",
+      "name": "qa2upcopcvm/installopscenter",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "properties": {
